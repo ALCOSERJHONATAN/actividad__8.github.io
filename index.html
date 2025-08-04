@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE_ALCOSER - Sistema de Gestión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-[#FFEEDB] font-sans">
+    <!-- Contenedor principal -->
+    <div id="app" class="min-h-screen">
+        <!-- Vista de autenticación -->
+        <div id="auth-view" class="flex items-center justify-center min-h-screen">
+            <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border-2 border-[#FF9A76]">
+                <div class="text-center mb-8">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="THE_ALCOSER Logo" class="mx-auto mb-4 rounded-lg h-20 w-20">
+                    <h2 class="text-2xl font-bold text-gray-800">THE_ALCOSER</h2>
+                    <p class="text-gray-600">Gestión de Inventario</p>
+                </div>
+
+                <!-- Formulario de Login -->
+                <form id="login-form" class="space-y-4">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                        <input type="password" id="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-[#FF6B95] to-[#FF9A76] hover:from-[#FF9A76] hover:to-[#FF6B95] focus:outline-none focus:ring-2 focus:ring-[#FF9A76]">
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Enlace para cambiar a registro -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        ¿No tienes una cuenta? 
+                        <button id="show-register" class="font-medium text-indigo-600 hover:text-indigo-500">Regístrate</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista de registro -->
+        <div id="register-view" class="hidden items-center justify-center min-h-screen">
+            <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+                <div class="text-center mb-8">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4e26cc56-f40d-45a3-89a7-7c04f6439b4a.png" alt="THE_ALCOSER Registro" class="mx-auto mb-4 rounded-full">
+                    <h2 class="text-2xl font-bold text-gray-800">THE_ALCOSER</h2>
+                    <p class="text-gray-600">Registro de Usuario</p>
+                </div>
+
+                <!-- Formulario de Registro -->
+                <form id="register-form" class="space-y-4">
+                    <div>
+                        <label for="reg-name" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
+                        <input type="text" id="reg-name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+                    <div>
+                        <label for="reg-email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="reg-email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+                    <div>
+                        <label for="reg-password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                        <input type="password" id="reg-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+                    <div>
+                        <label for="reg-confirm-password" class="block text-sm font-medium text-gray-700">Confirmar Contraseña</label>
+                        <input type="password" id="reg-confirm-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Registrarse
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Enlace para cambiar a login -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        ¿Ya tienes una cuenta? 
+                        <button id="show-login" class="font-medium text-indigo-600 hover:text-indigo-500">Iniciar Sesión</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista principal (Dashboard) -->
+        <div id="dashboard-view" class="hidden">
+            <!-- Barra lateral -->
+            <div class="flex h-screen">
+                <div class="w-64 bg-gradient-to-b from-[#FF9A76] to-[#FF6B95] text-white p-4">
+                    <div class="flex items-center mb-8 p-2">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="THE_ALCOSER Logo" class="mr-2 h-8">
+                        <span class="font-bold">THE_ALCOSER</span>
+                    </div>
+                    <nav>
+                        <ul class="space-y-2">
+                            <li>
+                                <button id="dashboard-link" class="flex items-center w-full p-2 rounded hover:bg-indigo-700">
+                                    <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                                </button>
+                            </li>
+                            <li>
+                                <button id="products-link" class="flex items-center w-full p-2 rounded bg-[#FF6B95]">
+                                    <i class="fas fa-boxes mr-2"></i> Productos
+                                </button>
+                            </li>
+                            <li>
+                                <button id="reports-link" class="flex items-center w-full p-2 rounded hover:bg-indigo-700">
+                                    <i class="fas fa-chart-bar mr-2"></i> Reportes
+                                </button>
+                            </li>
+                            <li>
+                                <button id="logout-btn" class="flex items-center w-full p-2 rounded hover:bg-indigo-700">
+                                    <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Contenido principal -->
+                <div class="flex-1 overflow-auto">
+                    <!-- Barra superior -->
+                    <header class="bg-gradient-to-r from-[#FFCDB2] to-[#FFB4A2] shadow-sm p-4 flex justify-between items-center">
+                        <h1 class="text-xl font-semibold text-gray-800" id="page-title">Productos</h1>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm text-gray-600">Bienvenido, <span id="username-display">Usuario</span></span>
+                            <img src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png" alt="Usuario" class="w-8 h-8 rounded-full">
+                        </div>
+                    </header>
+
+                    <main class="p-4">
+                        <!-- Contenido del Dashboard -->
+                        <div id="dashboard-content" class="hidden">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <!-- Tarjetas de resumen -->
+                                <div class="bg-white p-4 rounded-lg shadow border border-[#FF9A76]">
+                                    <div class="flex items-center">
+                                        <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                                            <i class="fas fa-box text-xl"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="text-sm font-medium text-gray-500">Productos Total</h3>
+                                            <p class="text-2xl font-semibold text-gray-700" id="total-products">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow">
+                                    <div class="flex items-center">
+                                        <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                            <i class="fas fa-arrow-down text-xl"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="text-sm font-medium text-gray-500">Entradas</h3>
+                                            <p class="text-2xl font-semibold text-gray-700" id="total-entries">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow">
+                                    <div class="flex items-center">
+                                        <div class="p-3 rounded-full bg-red-100 text-red-600">
+                                            <i class="fas fa-arrow-up text-xl"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="text-sm font-medium text-gray-500">Salidas</h3>
+                                            <p class="text-2xl font-semibold text-gray-700" id="total-outputs">0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-lg shadow mb-6">
+                                <h2 class="text-lg font-semibold mb-4">Actividad Reciente</h2>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acción</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recent-activity" class="bg-white divide-y divide-gray-200">
+                                            <!-- Datos de actividad se cargarán aquí -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contenido de Productos -->
+                        <div id="products-content">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-semibold">Gestión de Productos</h2>
+                                <button id="add-product-btn" class="bg-gradient-to-r from-[#FF6B95] to-[#FF9A76] text-white px-4 py-2 rounded-md hover:from-[#FF9A76] hover:to-[#FF6B95]">
+                                    <i class="fas fa-plus mr-1"></i> Agregar Producto
+                                </button>
+                            </div>
+
+                            <!-- Modal para agregar/editar producto -->
+                            <div id="product-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                                <div class="bg-white rounded-lg p-6 w-full max-w-md">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h3 class="text-lg font-semibold" id="modal-title">Agregar Producto</h3>
+                                        <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <form id="product-form">
+                                        <input type="hidden" id="product-id">
+                                        <div class="space-y-4">
+                                            <div>
+                                                <label for="product-name" class="block text-sm font-medium text-gray-700">Nombre</label>
+                                                <input type="text" id="product-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                                            </div>
+                                            <div>
+                                                <label for="product-description" class="block text-sm font-medium text-gray-700">Descripción</label>
+                                                <textarea id="product-description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                                            </div>
+                                            <div>
+                                                <label for="product-category" class="block text-sm font-medium text-gray-700">Categoría</label>
+                                                <select id="product-category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                                    <option value="electronica">Electrónica</option>
+                                                    <option value="ropa">Ropa</option>
+                                                    <option value="alimentos">Alimentos</option>
+                                                    <option value="hogar">Hogar</option>
+                                                    <option value="otros">Otros</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label for="product-price" class="block text-sm font-medium text-gray-700">Precio ($)</label>
+                                                <input type="number" id="product-price" step="0.01" min="0" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                                            </div>
+                                            <div>
+                                                <label for="product-stock" class="block text-sm font-medium text-gray-700">Cantidad en Stock</label>
+                                                <input type="number" id="product-stock" min="0" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+                                            </div>
+                                            <div class="flex justify-end space-x-2 pt-4">
+                                                <button type="button" id="cancel-product" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    Cancelar
+                                                </button>
+                                                <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    Guardar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Tabla de productos -->
+                            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                                    <div class="relative">
+                                        <input type="text" id="product-search" placeholder="Buscar productos..." class="pl-8 pr-4 py-2 border rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                        <i class="fas fa-search absolute left-2.5 top-3 text-gray-400"></i>
+                                    </div>
+                                    <div>
+                                        <select id="category-filter" class="border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                            <option value="all">Todas las categorías</option>
+                                            <option value="electronica">Electrónica</option>
+                                            <option value="ropa">Ropa</option>
+                                            <option value="alimentos">Alimentos</option>
+                                            <option value="hogar">Hogar</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="products-table" class="bg-white divide-y divide-gray-200">
+                                            <!-- Datos de productos se cargarán aquí -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+                                    <div class="text-sm text-gray-500">
+                                        Mostrando <span id="start-item">1</span> a <span id="end-item">10</span> de <span id="total-items">0</span> resultados
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button id="prev-page" class="px-3 py-1 border rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50">Anterior</button>
+                                        <button id="next-page" class="px-3 py-1 border rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50">Siguiente</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contenido de Reportes -->
+                        <div id="reports-content" class="hidden">
+                            <h2 class="text-lg font-semibold mb-4">Reportes</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white p-4 rounded-lg shadow">
+                                    <h3 class="text-md font-medium mb-2">Movimientos por Categoría</h3>
+                                    <div class="h-64">
+                                        <img src="https://cdn-images-1.medium.com/max/1200/1*AQRf7Q1YLkoFpQTLNEKzRw.png" alt="Movimientos por categoría" class="w-full h-full object-contain">
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow">
+                                    <h3 class="text-md font-medium mb-2">Stock por Producto</h3>
+                                    <div class="h-64">
+                                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e97f844f-5705-4faa-995b-7bde97da8d73.png" alt="Gráfico de pastel mostrando distribución del stock por producto" class="w-full h-full object-contain">
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow col-span-1 md:col-span-2">
+                                    <h3 class="text-md font-medium mb-2">Movimientos Diarios</h3>
+                                    <div class="h-64">
+                                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/71368a09-afd8-413c-a768-717cc48b7d77.png" alt="Gráfico de líneas mostrando entradas y salidas diarias del inventario" class="w-full h-full object-contain">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 bg-white p-4 rounded-lg shadow">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-md font-medium">Exportar Reportes</h3>
+                                    <div class="space-x-2">
+                                        <button class="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700">
+                                            <i class="fas fa-file-excel mr-1"></i> Excel
+                                        </button>
+                                        <button class="bg-red-600 text-white px-4 py-2 rounded-md text-sm hover:bg-red-700">
+                                            <i class="fas fa-file-pdf mr-1"></i> PDF
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600">Selecciona un rango de fechas para generar reportes personalizados.</p>
+                                <div class="mt-4 flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+                                    <div class="flex-1">
+                                        <label for="start-date" class="block text-sm font-medium text-gray-700">Fecha Inicio</label>
+                                        <input type="date" id="start-date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                    </div>
+                                    <div class="flex-1">
+                                        <label for="end-date" class="block text-sm font-medium text-gray-700">Fecha Fin</label>
+                                        <input type="date" id="end-date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                    </div>
+                                    <div class="flex items-end md:ml-4">
+                                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700 h-10">
+                                            Generar Reporte
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script principal -->
+    <script>
+        // Estado de la aplicación
+        const state = {
+            currentUser: null,
+            products: [],
+            currentPage: 1,
+            itemsPerPage: 10,
+            currentView: 'products',
+            editingProductId: null,
+            categories: [
+                { id: 'electronica', name: 'Electrónica' },
+                { id: 'ropa', name: 'Ropa' },
+                { id: 'alimentos', name: 'Alimentos' },
+                { id: 'hogar', name: 'Hogar' },
+                { id: 'otros', name: 'Otros' }
+            ],
+            activityLog: [],
+            totalProducts: 0,
+            totalEntries: 0,
+            totalOutputs: 0
+        };
+
+        // Selectores
+        const selectors = {
+            // Vistas
+            authView: document.getElementById('auth-view'),
+            registerView: document.getElementById('register-view'),
+            dashboardView: document.getElementById('dashboard-view'),
+            
+            // Formularios de autenticación
+            loginForm: document.getElementById('login-form'),
+            registerForm: document.getElementById('register-form'),
+            showRegisterBtn: document.getElementById('show-register'),
+            showLoginBtn: document.getElementById('show-login'),
+            logoutBtn: document.getElementById('logout-btn'),
+            
+            // Dashboard
+            usernameDisplay: document.getElementById('username-display'),
+            dashboardContent: document.getElementById('dashboard-content'),
+            productsContent: document.getElementById('products-content'),
+            reportsContent: document.getElementById('reports-content'),
+            dashboardLink: document.getElementById('dashboard-link'),
+            productsLink: document.getElementById('products-link'),
+            reportsLink: document.getElementById('reports-link'),
+            pageTitle: document.getElementById('page-title'),
+            
+            // Dashboard stats
+            totalProductsElement: document.getElementById('total-products'),
+            totalEntriesElement: document.getElementById('total-entries'),
+            totalOutputsElement: document.getElementById('total-outputs'),
+            recentActivityTable: document.getElementById('recent-activity'),
+            
+            // Productos
+            addProductBtn: document.getElementById('add-product-btn'),
+            productModal: document.getElementById('product-modal'),
+            modalTitle: document.getElementById('modal-title'),
+            productForm: document.getElementById('product-form'),
+            productIdInput: document.getElementById('product-id'),
+            productNameInput: document.getElementById('product-name'),
+            productDescInput: document.getElementById('product-description'),
+            productCategoryInput: document.getElementById('product-category'),
+            productPriceInput: document.getElementById('product-price'),
+            productStockInput: document.getElementById('product-stock'),
+            cancelProductBtn: document.getElementById('cancel-product'),
+            closeModalBtn: document.getElementById('close-modal'),
+            productsTable: document.getElementById('products-table'),
+            productSearch: document.getElementById('product-search'),
+            categoryFilter: document.getElementById('category-filter'),
+            
+            // Paginación
+            prevPageBtn: document.getElementById('prev-page'),
+            nextPageBtn: document.getElementById('next-page'),
+            startItem: document.getElementById('start-item'),
+            endItem: document.getElementById('end-item'),
+            totalItems: document.getElementById('total-items')
+        };
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar datos de prueba
+            loadMockData();
+            
+            // Configurar eventos
+            setupEventListeners();
+            
+            // Verificar si hay usuario logueado (simulado)
+            const loggedInUser = localStorage.getItem('inventory_user');
+            if (loggedInUser) {
+                state.currentUser = JSON.parse(loggedInUser);
+                showDashboard();
+            }
+        });
+
+        // Cargar datos de prueba
+        function loadMockData() {
+            // Datos de productos de prueba
+            state.products = [
+                { 
+                    id: '1', 
+                    name: 'Laptop HP', 
+                    description: 'Laptop HP con procesador i5 y 8GB RAM', 
+                    category: 'electronica', 
+                    price: 899.99, 
+                    stock: 15,
+                    createdAt: new Date('2023-05-15')
+                },
+                { 
+                    id: '2', 
+                    name: 'Camisa Casual', 
+                    description: 'Camisa de algodón para hombre talla M', 
+                    category: 'ropa', 
+                    price: 29.99, 
+                    stock: 42,
+                    createdAt: new Date('2023-06-20')
+                },
+                { 
+                    id: '3', 
+                    name: 'Arroz 5kg', 
+                    description: 'Arroz premium en paquete de 5 kilogramos', 
+                    category: 'alimentos', 
+                    price: 5.99, 
+                    stock: 120,
+                    createdAt: new Date('2023-07-01')
+                },
+                { 
+                    id: '4', 
+                    name: 'Sartén Antiadherente', 
+                    description: 'Sartén de 24cm con revestimiento antiadherente', 
+                    category: 'hogar', 
+                    price: 19.99, 
+                    stock: 23,
+                    createdAt: new Date('2023-07-10')
+                },
+                { 
+                    id: '5', 
+                    name: 'Auriculares Inalámbricos', 
+                    description: 'Auriculares Bluetooth con cancelación de ruido', 
+                    category: 'electronica', 
+                    price: 79.99, 
+                    stock: 18,
+                    createdAt: new Date('2023-08-05')
+                },
+                { 
+                    id: '6', 
+                    name: 'Pantalón Vaquero', 
+                    description: 'Pantalón vaquero azul talla 32', 
+                    category: 'ropa', 
+                    price: 39.99, 
+                    stock: 27,
+                    createdAt: new Date('2023-08-12')
+                },
+                { 
+                    id: '7', 
+                    name: 'Aceite de Oliva', 
+                    description: 'Aceite de oliva virgen extra 1L', 
+                    category: 'alimentos', 
+                    price: 8.99, 
+                    stock: 35,
+                    createdAt: new Date('2023-08-15')
+                },
+                { 
+                    id: '8', 
+                    name: 'Juego de Toallas', 
+                    description: 'Juego de 3 toallas de baño', 
+                    category: 'hogar', 
+                    price: 24.99, 
+                    stock: 14,
+                    createdAt: new Date('2023-08-20')
+                },
+                { 
+                    id: '9', 
+                    name: 'Monitor 24"', 
+                    description: 'Monitor Full HD de 24 pulgadas', 
+                    category: 'electronica', 
+                    price: 149.99, 
+                    stock: 8,
+                    createdAt: new Date('2023-09-01')
+                },
+                { 
+                    id: '10', 
+                    name: 'Zapatos Deportivos', 
+                    description: 'Zapatos deportivos para correr talla 10', 
+                    category: 'ropa', 
+                    price: 59.99, 
+                    stock: 12,
+                    createdAt: new Date('2023-09-05')
+                }
+            ];
+            
+            // Actualizar contadores
+            updateCounters();
+            
+            // Datos de actividad reciente
+            state.activityLog = [
+                { date: new Date(), user: 'admin', action: 'Agregó producto', product: 'Laptop HP' },
+                { date: new Date(Date.now() - 3600000), user: 'admin', action: 'Actualizó stock', product: 'Camisa Casual' },
+                { date: new Date(Date.now() - 86400000), user: 'manager', action: 'Eliminó producto', product: 'Mouse Inalámbrico' },
+                { date: new Date(Date.now() - 172800000), user: 'admin', action: 'Registró entrada', product: 'Aceite de Oliva' },
+                { date: new Date(Date.now() - 259200000), user: 'manager', action: 'Registró salida', product: 'Monitor 24"' }
+            ];
+            
+            // Renderizar datos iniciales
+            renderProductsTable();
+            renderDashboardStats();
+        }
+
+        // Configurar eventos
+        function setupEventListeners() {
+            // Autenticación
+            selectors.showRegisterBtn.addEventListener('click', showRegister);
+            selectors.showLoginBtn.addEventListener('click', showLogin);
+            selectors.loginForm.addEventListener('submit', handleLogin);
+            selectors.registerForm.addEventListener('submit', handleRegister);
+            selectors.logoutBtn.addEventListener('click', handleLogout);
+            
+            // Navegación
+            selectors.dashboardLink.addEventListener('click', () => switchView('dashboard'));
+            selectors.productsLink.addEventListener('click', () => switchView('products'));
+            selectors.reportsLink.addEventListener('click', () => switchView('reports'));
+            
+            // Productos
+            selectors.addProductBtn.addEventListener('click', openAddProductModal);
+            selectors.productForm.addEventListener('submit', handleProductSubmit);
+            selectors.cancelProductBtn.addEventListener('click', closeProductModal);
+            selectors.closeModalBtn.addEventListener('click', closeProductModal);
+            selectors.productSearch.addEventListener('input', renderProductsTable);
+            selectors.categoryFilter.addEventListener('change', renderProductsTable);
+            
+            // Paginación
+            selectors.prevPageBtn.addEventListener('click', goToPrevPage);
+            selectors.nextPageBtn.addEventListener('click', goToNextPage);
+        }
+
+        // Mostrar vista de login
+        function showLogin() {
+            selectors.authView.classList.remove('hidden');
+            selectors.registerView.classList.add('hidden');
+        }
+
+        // Mostrar vista de registro
+        function showRegister() {
+            selectors.authView.classList.add('hidden');
+            selectors.registerView.classList.remove('hidden');
+        }
+
+        // Mostrar dashboard
+        function showDashboard() {
+            selectors.authView.classList.add('hidden');
+            selectors.registerView.classList.add('hidden');
+            selectors.dashboardView.classList.remove('hidden');
+            
+            // Mostrar nombre de usuario
+            if (state.currentUser) {
+                selectors.usernameDisplay.textContent = state.currentUser.name;
+            }
+            
+            // Mostrar vista por defecto
+            switchView('products');
+        }
+
+        // Cambiar vista
+        function switchView(view) {
+            state.currentView = view;
+            
+            // Ocultar todas las vistas de contenido
+            selectors.dashboardContent.classList.add('hidden');
+            selectors.productsContent.classList.add('hidden');
+            selectors.reportsContent.classList.add('hidden');
+            
+            // Mostrar solo la vista seleccionada
+            switch(view) {
+                case 'dashboard':
+                    selectors.dashboardContent.classList.remove('hidden');
+                    selectors.pageTitle.textContent = 'Dashboard';
+                    renderDashboardStats();
+                    break;
+                case 'products':
+                    selectors.productsContent.classList.remove('hidden');
+                    selectors.pageTitle.textContent = 'Productos';
+                    renderProductsTable();
+                    break;
+                case 'reports':
+                    selectors.reportsContent.classList.remove('hidden');
+                    selectors.pageTitle.textContent = 'Reportes';
+                    break;
+            }
+            
+            // Actualizar estado activo en la navegación
+            selectors.dashboardLink.classList.remove('bg-indigo-900');
+            selectors.productsLink.classList.remove('bg-indigo-900');
+            selectors.reportsLink.classList.remove('bg-indigo-900');
+            
+            document.getElementById(`${view}-link`).classList.add('bg-indigo-900');
+        }
+
+        // Manejar login
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simular autenticación exitosa
+            state.currentUser = {
+                name: 'Administrador',
+                email: email
+            };
+            
+            // Guardar en localStorage (simulado)
+            localStorage.setItem('inventory_user', JSON.stringify(state.currentUser));
+            
+            // Mostrar dashboard
+            showDashboard();
+            
+            // Limpiar formulario
+            selectors.loginForm.reset();
+        }
+
+        // Manejar registro
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            
+            // Validar contraseñas coincidentes
+            if (password !== confirmPassword) {
+                alert('Las contraseñas no coinciden');
+                return;
+            }
+            
+            // Simular registro exitoso
+            state.currentUser = {
+                name: name,
+                email: email
+            };
+            
+            // Guardar en localStorage (simulado)
+            localStorage.setItem('inventory_user', JSON.stringify(state.currentUser));
+            
+            // Mostrar dashboard
+            showDashboard();
+            
+            // Limpiar formulario
+            selectors.registerForm.reset();
+        }
+
+        // Manejar logout
+        function handleLogout() {
+            // Eliminar usuario del estado y localStorage
+            state.currentUser = null;
+            localStorage.removeItem('inventory_user');
+            
+            // Mostrar vista de login
+            selectors.authView.classList.remove('hidden');
+            selectors.dashboardView.classList.add('hidden');
+            selectors.registerView.classList.add('hidden');
+        }
+
+        // Abrir modal para agregar producto
+        function openAddProductModal() {
+            selectors.modalTitle.textContent = 'Agregar Producto';
+            selectors.productIdInput.value = '';
+            selectors.productForm.reset();
+            state.editingProductId = null;
+            selectors.productModal.classList.remove('hidden');
+        }
+
+        // Abrir modal para editar producto
+        function openEditProductModal(productId) {
+            const product = state.products.find(p => p.id === productId);
+            if (!product) return;
+            
+            selectors.modalTitle.textContent = 'Editar Producto';
+            selectors.productIdInput.value = product.id;
+            selectors.productNameInput.value = product.name;
+            selectors.productDescInput.value = product.description || '';
+            selectors.productCategoryInput.value = product.category;
+            selectors.productPriceInput.value = product.price;
+            selectors.productStockInput.value = product.stock;
+            state.editingProductId = productId;
+            selectors.productModal.classList.remove('hidden');
+        }
+
+        // Cerrar modal de producto
+        function closeProductModal() {
+            selectors.productModal.classList.add('hidden');
+        }
+
+        // Manejar envío de formulario de producto
+        function handleProductSubmit(e) {
+            e.preventDefault();
+            
+            const productData = {
+                name: selectors.productNameInput.value,
+                description: selectors.productDescInput.value,
+                category: selectors.productCategoryInput.value,
+                price: parseFloat(selectors.productPriceInput.value),
+                stock: parseInt(selectors.productStockInput.value),
+                createdAt: new Date()
+            };
+            
+            if (state.editingProductId) {
+                // Editar producto existente
+                const index = state.products.findIndex(p => p.id === state.editingProductId);
+                if (index !== -1) {
+                    productData.id = state.editingProductId;
+                    productData.createdAt = state.products[index].createdAt;
+                    state.products[index] = productData;
+                    
+                    // Registrar actividad
+                    logActivity('Actualizó producto', productData.name);
+                }
+            } else {
+                // Agregar nuevo producto
+                productData.id = generateId();
+                state.products.push(productData);
+                
+                // Registrar actividad
+                logActivity('Agregó producto', productData.name);
+            }
+            
+            // Actualizar contadores
+            updateCounters();
+            
+            // Cerrar modal y actualizar tabla
+            closeProductModal();
+            renderProductsTable();
+        }
+
+        // Eliminar producto
+        function deleteProduct(productId) {
+            const product = state.products.find(p => p.id === productId);
+            if (!product) return;
+            
+            if (confirm(`¿Estás seguro de eliminar el producto "${product.name}"?`)) {
+                const index = state.products.findIndex(p => p.id === productId);
+                if (index !== -1) {
+                    state.products.splice(index, 1);
+                    
+                    // Registrar actividad
+                    logActivity('Eliminó producto', product.name);
+                    
+                    // Actualizar contadores y tabla
+                    updateCounters();
+                    renderProductsTable();
+                }
+            }
+        }
+
+        // Generar ID único
+        function generateId() {
+            return Math.random().toString(36).substr(2, 9);
+        }
+
+        // Registrar actividad
+        function logActivity(action, product) {
+            state.activityLog.unshift({
+                date: new Date(),
+                user: state.currentUser ? state.currentUser.name : 'Sistema',
+                action,
+                product
+            });
+            
+            // Limitar a 50 registros de actividad
+            if (state.activityLog.length > 50) {
+                state.activityLog.pop();
+            }
+            
+            renderDashboardStats();
+        }
+
+        // Actualizar contadores
+        function updateCounters() {
+            state.totalProducts = state.products.length;
+            state.totalEntries = state.products.reduce((sum, p) => sum + p.stock, 0);
+            state.totalOutputs = Math.floor(state.totalEntries * 0.3); // Simulado
+        }
+
+        // Renderizar estadísticas del dashboard
+        function renderDashboardStats() {
+            selectors.totalProductsElement.textContent = state.totalProducts;
+            selectors.totalEntriesElement.textContent = state.totalEntries;
+            selectors.totalOutputsElement.textContent = state.totalOutputs;
+            
+            // Mostrar actividad reciente
+            selectors.recentActivityTable.innerHTML = state.activityLog.slice(0, 5).map(activity => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDate(activity.date)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${activity.user}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${activity.action}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${activity.product}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Renderizar tabla de productos
+        function renderProductsTable() {
+            const searchTerm = selectors.productSearch.value.toLowerCase();
+            const categoryFilter = selectors.categoryFilter.value;
+            
+            // Filtrar productos
+            let filteredProducts = state.products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) || 
+                                     product.description.toLowerCase().includes(searchTerm);
+                
+                const matchesCategory = categoryFilter === 'all' || product.category === categoryFilter;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            // Ordenar por fecha de creación (más reciente primero)
+            filteredProducts.sort((a, b) => b.createdAt - a.createdAt);
+            
+            // Calcular paginación
+            const totalPages = Math.ceil(filteredProducts.length / state.itemsPerPage);
+            const startIndex = (state.currentPage - 1) * state.itemsPerPage;
+            const endIndex = Math.min(startIndex + state.itemsPerPage, filteredProducts.length);
+            const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+            
+            // Actualizar controles de paginación
+            selectors.startItem.textContent = startIndex + 1;
+            selectors.endItem.textContent = endIndex;
+            selectors.totalItems.textContent = filteredProducts.length;
+            
+            selectors.prevPageBtn.disabled = state.currentPage === 1;
+            selectors.nextPageBtn.disabled = state.currentPage >= totalPages;
+            
+            // Generar filas de la tabla
+            selectors.productsTable.innerHTML = paginatedProducts.map(product => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                                <img src="${getProductImage(product.category)}" alt="${product.name}" class="h-10 w-10 rounded">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${product.name}</div>
+                                <div class="text-sm text-gray-500">${product.description.substring(0, 30)}${product.description.length > 30 ? '...' : ''}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${getCategoryName(product.category)}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">$${product.price.toFixed(2)}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${product.stock > 10 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${product.stock} unidades
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <button class="text-indigo-600 hover:text-indigo-900 mr-3 edit-product" data-id="${product.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-red-600 hover:text-red-900 delete-product" data-id="${product.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Agregar event listeners a los botones
+            document.querySelectorAll('.edit-product').forEach(btn => {
+                btn.addEventListener('click', () => openEditProductModal(btn.dataset.id));
+            });
+            
+            document.querySelectorAll('.delete-product').forEach(btn => {
+                btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
+            });
+        }
+
+        // Obtener imagen según categoría
+        function getProductImage(category) {
+            const images = {
+                'electronica': 'https://cdn-icons-png.flaticon.com/512/3659/3659898.png',
+                'ropa': 'https://cdn-icons-png.flaticon.com/512/3082/3082027.png',
+                'alimentos': 'https://cdn-icons-png.flaticon.com/512/3176/3176151.png',
+                'hogar': 'https://cdn-icons-png.flaticon.com/512/3576/3576030.png',
+                'otros': 'https://cdn-icons-png.flaticon.com/512/3144/3144412.png'
+            };
+            return images[category] || images['otros'];
+        }
+
+        // Obtener nombre de categoría
+        function getCategoryName(categoryId) {
+            const category = state.categories.find(c => c.id === categoryId);
+            return category ? category.name : 'Otros';
+        }
+
+        // Ir a página anterior
+        function goToPrevPage() {
+            if (state.currentPage > 1) {
+                state.currentPage--;
+                renderProductsTable();
+            }
+        }
+
+        // Ir a página siguiente
+        function goToNextPage() {
+            const totalPages = Math.ceil(state.products.length / state.itemsPerPage);
+            if (state.currentPage < totalPages) {
+                state.currentPage++;
+                renderProductsTable();
+            }
+        }
+
+        // Formatear fecha
+        function formatDate(date) {
+            return new Date(date).toLocaleString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    </script>
+</body>
+</html>
